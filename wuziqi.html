@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<style>
+    body,div,i,ul,li{
+        margin: 0;
+        padding: 0;
+    }
+body{
+    background: #cd7a52;
+    font-size: 26px;
+}
+li{
+    list-style: none;
+}
+    .chessman{
+        width: 101px;
+        height: 210px;
+        left: 50%;
+        top: 50px;
+        margin-left: -650px;
+        position: absolute;
+    }
+    .clearfix {
+        *zoom: 1;
+    }
+
+    .clearfix:after {
+        content: '.';
+        visibility: hidden;
+        clear: both;
+        display: block;
+        height: 0;
+    }
+    #current{
+        position: absolute;
+        top: 5px;
+        left: 2px;
+        font-style: normal;
+    }
+    .black,.white{
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: #000;
+        border-radius: 50%;
+        box-shadow: 2px 2px 8px #000;
+    }
+    .black{
+        background: -webkit-radial-gradient(#7b6574, #312724, #000); /* Safari 5.1 - 6.0 */
+        background: -o-radial-gradient(#7b6574, #312724, #000); /* Opera 11.6 - 12.0 */
+        background: -moz-radial-gradient(#7b6574, #312724, #000); /* Firefox 3.6 - 15 */
+        background: radial-gradient(#7b6574, #312724, #000); /* 标准的语法 */
+    }
+    .white{
+        background: -webkit-radial-gradient(#dad1ce, #eee, #fff); /* Safari 5.1 - 6.0 */
+        background: -o-radial-gradient(#dad1ce, #eee, #fff); /* Opera 11.6 - 12.0 */
+        background: -moz-radial-gradient(#dad1ce, #eee, #fff); /* Firefox 3.6 - 15 */
+        background: radial-gradient(#dad1ce, #eee, #fff); /* 标准的语法 */
+    }
+    .start{
+        position: absolute;
+        width: 80px;
+        height: 30px;
+        background: #000;
+        border-radius: 5px;
+        left: 10px;
+        bottom: 0;
+        color: #fff;
+        font-size: 16px;
+        text-align: center;
+        line-height: 30px;
+        font-style: normal;
+    }
+    #chessBox{
+        width: 1000px;
+        margin: 50px auto 0;
+        position: relative;
+    }
+    #chessBox ul{
+        width: 100%;
+        padding:0 3px 3px 0;
+    }
+    #chessBox li{
+        float: left;
+        width: 37px;
+        height: 37px;
+        border: 3px double #000000;
+        margin: 0 -3px -3px 0;
+    }
+</style>
+<body>
+<div class="chessman">
+    <i id="current" class="current" style="top: 0px;">=》</i>
+    <i class="black" style="left:50px;"></i>
+    <i class="white" style="top:80px;left:50px;"></i>
+    <i class="start" onclick="window.location.reload();">重新开始</i>
+</div>
+
+<div id="chessBox">
+    <ul class="clearfix">
+    </ul>
+</div>
+<script>
+    var bollB=true;//true表示黑子
+    var chessBoxNode=document.getElementById("chessBox");
+    var ulNode=chessBoxNode.getElementsByTagName("ul")[0];
+    var arr=[];
+    var currentNode=document.getElementById("current");
+    function chessBoxGet(row){
+        var col=25;
+        var flag=document.createDocumentFragment();
+        for(var i=0;i<col;i++){
+            arr[i]=[];
+            for(var j=0;j<row;j++){
+                var liNode=document.createElement("li");
+                flag.appendChild(liNode);
+                arr[i][j]=false;
+            }
+        }
+        ulNode.appendChild(flag);
+    }
+    chessBoxGet(10);
+    chessBox.onclick=function(e) {
+        var event = window.event || e;
+        var bodyChessBoxPosX = chessBox.offsetLeft;//得到节点于父级的距离（position有关）
+        var bodyChessBoxPosY = chessBox.offsetTop;
+        var pageX = event.pageX;
+        var pageY = event.pageY;
+        var x = Math.round((pageX - bodyChessBoxPosX) / 40);
+        var y = Math.round((pageY - bodyChessBoxPosY) / 40);
+        if (arr[x][y]) {
+            function blan() {
+                return;
+            }
+        }
+        var iNode = document.createElement("i");
+        if (bollB == true) {
+            iNode.className = "black";
+            iNode.style.left = (x * 40 - 15) + "px";
+            iNode.style.top = (y * 40 - 15) + "px";
+            arr[x][y] = "black";
+            currentNode.style.top = "80px";
+            bollB = false;
+        } else {
+            iNode.className = "white";
+            iNode.style.left = (x * 40 - 15) + "px";
+            iNode.style.top = (y * 40 - 15) + "px";
+            arr[x][y] = "white";
+            currentNode.style.top = "0px";
+            bollB = true;
+        }
+        ulNode.appendChild(iNode);
+        arr[x][y] == true;
+    }
+
+</script>
+</body>
+</html>
